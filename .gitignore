@@ -1,0 +1,22 @@
+# Eclipse project files
+.project
+.classpath
+.settings
+
+# IntelliJ IDEA project files and directories
+*.iml
+*.ipr
+*.iws
+.idea/
+.shelf/
+
+
+
+# Build targets
+/target
+*/target
+
+
+# exclude file created by the flatten plugin
+.flattened-pom.xml
+.java-version
