@@ -1,4 +1,4 @@
-package com.sean.rpc;
+package rpc;
 
 public class AAA {
 }

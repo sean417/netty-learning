@@ -1,4 +1,4 @@
-package com.sean.rpc.serialization;
+package rpc.serialization;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -6,9 +6,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 public class RpcEncoder extends MessageToByteEncoder {
 
-
     private Class<?> targetClass;
-
     public RpcEncoder(Class<?> targetClass){
         this.targetClass = targetClass;
     }
@@ -16,6 +14,7 @@ public class RpcEncoder extends MessageToByteEncoder {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Object o, ByteBuf byteBuf) throws Exception {
             if(targetClass.isInstance(o)){
+                // 序列化
                 byte[] bytes = HessianSerialization.serialize(o);
                 // 先写入 4 个字节的 长度
                 byteBuf.writeInt(bytes.length);
@@ -23,6 +22,4 @@ public class RpcEncoder extends MessageToByteEncoder {
                 byteBuf.writeBytes(bytes);
             }
     }
-
-
 }

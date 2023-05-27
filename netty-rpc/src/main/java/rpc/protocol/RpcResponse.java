@@ -1,4 +1,4 @@
-package com.sean.rpc.protocol;
+package rpc.protocol;
 
 import java.io.Serializable;
 
