@@ -11,9 +11,9 @@ public class RpcRequest implements Serializable {
     // 需要调用的方法
     private String methodName;
     // 方法的参数类型
-    private String[] parameterClasses;
+    private Class[] parameterTypes;
     // 方法参数名
-    private Object[] parameters;
+    private Object[] args;
     // 调用者的应用名称
     private String invokerApplicationName;
     // 调用者的 IP
@@ -43,20 +43,20 @@ public class RpcRequest implements Serializable {
         this.methodName = methodName;
     }
 
-    public String[] getParameterClasses() {
-        return parameterClasses;
+    public Class[] getParameterTypes() {
+        return parameterTypes;
     }
 
-    public void setParameterClasses(String[] parameterClasses) {
-        this.parameterClasses = parameterClasses;
+    public void setParameterTypes(Class[] parameterTypes) {
+        this.parameterTypes = parameterTypes;
     }
 
-    public Object[] getParameters() {
-        return parameters;
+    public Object[] getArgs() {
+        return args;
     }
 
-    public void setParameters(Object[] parameters) {
-        this.parameters = parameters;
+    public void setArgs(Object[] args) {
+        this.args = args;
     }
 
     public String getInvokerApplicationName() {
@@ -75,15 +75,14 @@ public class RpcRequest implements Serializable {
         this.invokerIp = invokerIp;
     }
 
-
     @Override
     public String toString() {
         return "RpcRequest{" +
                 "requestId='" + requestId + '\'' +
                 ", className='" + className + '\'' +
                 ", methodName='" + methodName + '\'' +
-                ", parameterClasses=" + Arrays.toString(parameterClasses) +
-                ", parameters=" + Arrays.toString(parameters) +
+                ", parameterTypes=" + Arrays.toString(parameterTypes) +
+                ", args=" + Arrays.toString(args) +
                 ", invokerApplicationName='" + invokerApplicationName + '\'' +
                 ", invokerIp='" + invokerIp + '\'' +
                 '}';

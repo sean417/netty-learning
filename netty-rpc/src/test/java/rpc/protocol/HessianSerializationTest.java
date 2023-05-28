@@ -11,8 +11,8 @@ public class HessianSerializationTest {
         rpcRequest.setRequestId(UUID.randomUUID().toString());
         rpcRequest.setClassName("TestClass");
         rpcRequest.setMethodName("sayHello()");
-        rpcRequest.setParameterClasses(new String[]{"String"});
-        rpcRequest.setParameters(new Object[]{"sean"});
+        rpcRequest.setParameterTypes(new Class[]{String.class});
+        rpcRequest.setArgs(new Object[]{"sean"});
         rpcRequest.setInvokerApplicationName("RpcClient");
         rpcRequest.setInvokerIp("127.0.0.1");
 
