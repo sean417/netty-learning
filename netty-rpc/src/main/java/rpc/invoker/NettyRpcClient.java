@@ -1,10 +1,7 @@
 package rpc.invoker;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -18,20 +15,24 @@ import rpc.serialization.RpcEncoder;
 public class NettyRpcClient {
 
     private static final Logger logger = LogManager.getLogger(NettyRpcClient.class);
-
-    private String ServiceHost;
+    private String serviceHost;
     private int servicePort;
+    private long timeout;
+    private ChannelFuture channelFuture;
+    NettyRpcClientHandler nettyRpcClientHandler ;
 
-    public NettyRpcClient(String serviceHost, int servicePort) {
-        ServiceHost = serviceHost;
+    public NettyRpcClient(String serviceHost, int servicePort,long timeout) {
+        this.serviceHost = serviceHost;
         this.servicePort = servicePort;
+        this.timeout = timeout;
+        this.nettyRpcClientHandler =  new NettyRpcClientHandler(3000);
     }
 
     public void connect(){
         logger.info("connecting to netty rpc server");
 
         EventLoopGroup eventLoopGroup =  new NioEventLoopGroup();
-        Bootstrap bootstrap =  new Bootstrap();
+        Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(eventLoopGroup)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE,true)
@@ -40,17 +41,31 @@ public class NettyRpcClient {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
                                 .addLast(new RpcEncoder(RpcRequest.class))
-                                .addLast(new RpcDecoder(RpcRequest.class))
+                                .addLast(new RpcDecoder(RpcResponse.class))
                                 .addLast(new NettyRpcReadTimeoutHandler())
-                                .addLast(new NettyRpcClientHandler());
+                                .addLast(nettyRpcClientHandler);
                     }
                 });
         try{
             // 发起连接
-            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1",8889);
+            ChannelFuture channelFuture = bootstrap.connect(serviceHost,servicePort).sync();
             logger.info("successfully connected");
         }catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
+    // 连接成功后，发送 RPC 请求
+    public RpcResponse remoteCall(RpcRequest rpcRequest) throws Throwable{
+        // 拿到 channel,并往 channel 里写对象，本质就是向服务端发送请求。
+        channelFuture.channel().writeAndFlush(rpcRequest).sync();
+        channelFuture.channel().closeFuture().sync();
+        // 收到服务提供方的响应
+        RpcResponse rpcResponse = nettyRpcClientHandler.getRpcResponse();
+        logger.info("receive response from netty rpc server:"+rpcResponse);
+        if(rpcResponse.isSuccess()){
+            return rpcResponse;
+        }
+        throw rpcResponse.getException();
+
     }
 }

@@ -14,7 +14,7 @@ public class NettyRpcServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
+        //1.接收请求对象
         RpcRequest rpcRequest = (RpcRequest) msg;
         logger.info("Netty rpc server receives the request:"+rpcRequest);
 
@@ -22,14 +22,16 @@ public class NettyRpcServerHandler extends ChannelInboundHandlerAdapter {
         rpcResponse.setRequestId(rpcRequest.getRequestId());
         try{
 
-            // 我们需要根据 rpcRequest 要调用的类名进行反射，并实例化
-            // 得到要访问的方法，再根据 rpcRequest 提供的方法参数去调用这个方法
+            // 2.我们需要根据 rpcRequest 要调用的类名进行反射，并实例化
+
             Class clazz = Class.forName(rpcRequest.getClassName());
             Object instance = clazz.newInstance();
+            // 3.找到对应方法
             Method method = clazz.getMethod(rpcRequest.getMethodName(),rpcRequest.getParameterTypes());
+            // 4.调用这个方法
             Object result = method.invoke(instance,rpcRequest.getArgs());
 
-            // 把 rpc 调用结果放入响应中去
+            // 5.把 rpc 调用结果放入响应中去
             rpcResponse.setResult(result);
             rpcResponse.setSuccess(RpcResponse.SUCCESS);
         }catch (Exception e){

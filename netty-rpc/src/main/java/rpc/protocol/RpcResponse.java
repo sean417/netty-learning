@@ -20,7 +20,7 @@ public class RpcResponse implements Serializable {
         this.requestId = requestId;
     }
 
-    public Boolean getSuccess() {
+    public Boolean isSuccess() {
         return isSuccess;
     }
 
@@ -42,5 +42,15 @@ public class RpcResponse implements Serializable {
 
     public void setException(Throwable exception) {
         this.exception = exception;
+    }
+
+    @Override
+    public String toString() {
+        return "RpcResponse{" +
+                "requestId='" + requestId + '\'' +
+                ", isSuccess=" + isSuccess +
+                ", result=" + result +
+                ", exception=" + exception +
+                '}';
     }
 }

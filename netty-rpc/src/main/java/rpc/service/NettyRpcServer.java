@@ -39,7 +39,9 @@ public class NettyRpcServer {
                             socketChannel.pipeline()
                                     // 反序列化 RpcRequest 对象。
                                     .addLast(new RpcDecoder(RpcRequest.class))
+                                    // 序列化
                                     .addLast(new RpcEncoder(RpcResponse.class))
+                                    // 接收请求，发送响应
                                     .addLast(new NettyRpcServerHandler());
                         }
                     }).option(ChannelOption.SO_BACKLOG,128)
