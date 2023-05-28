@@ -1,4 +1,4 @@
-package rpc.server;
+package rpc.service;
 
 public class TestService {
 

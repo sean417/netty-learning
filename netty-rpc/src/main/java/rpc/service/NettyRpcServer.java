@@ -1,25 +1,30 @@
-package rpc.server;
+package rpc.service;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.apache.logging.log4j.Logger;
 import rpc.protocol.RpcRequest;
 import rpc.protocol.RpcResponse;
 import rpc.serialization.RpcDecoder;
 import rpc.serialization.RpcEncoder;
 
+import org.apache.logging.log4j.LogManager;
+
+
 public class NettyRpcServer {
 
-
+    private static final Logger logger = LogManager.getLogger(NettyRpcServer.class);
     private int port;
     public NettyRpcServer(int port){
         this.port=port;
     }
 
     public void start() throws Exception{
-        System.out.println("netty rpc server starting......");
+
+        logger.info("netty rpc server starting......");
 
         EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
         EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup();
@@ -41,7 +46,7 @@ public class NettyRpcServer {
                     .childOption(ChannelOption.SO_KEEPALIVE,true);
             //server 启动并监听指定的端口号
             ChannelFuture channelFuture =  serverBootstrap.bind(port).sync();
-            System.out.println("netty rpc server started successfully");
+            logger.info("netty rpc server started successfully");
             // 进入阻塞状态，同步一直等到 server 关闭。
             channelFuture.channel().closeFuture().sync();
         }catch (InterruptedException e){

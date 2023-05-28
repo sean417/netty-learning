@@ -3,6 +3,10 @@ package rpc.protocol;
 import java.io.Serializable;
 
 public class RpcResponse implements Serializable {
+
+    public static final Boolean SUCCESS = true;
+    public static final Boolean FAILURE = false;
+
     private String requestId;
     private Boolean isSuccess;
     private Object result;
