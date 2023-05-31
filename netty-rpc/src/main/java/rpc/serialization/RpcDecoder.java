@@ -49,5 +49,6 @@ public class RpcDecoder extends ByteToMessageDecoder {
         byteBuf.readBytes(bytes);
         // 8.反序列化
         Object object = HessianSerialization.deserialize(bytes, RpcRequest.class);
+        list.add(object);
     }
 }

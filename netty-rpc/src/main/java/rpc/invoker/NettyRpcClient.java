@@ -12,6 +12,8 @@ import rpc.protocol.RpcResponse;
 import rpc.serialization.RpcDecoder;
 import rpc.serialization.RpcEncoder;
 
+import java.util.Date;
+
 public class NettyRpcClient {
 
     private static final Logger logger = LogManager.getLogger(NettyRpcClient.class);
@@ -25,7 +27,7 @@ public class NettyRpcClient {
         this.serviceHost = serviceHost;
         this.servicePort = servicePort;
         this.timeout = timeout;
-        this.nettyRpcClientHandler =  new NettyRpcClientHandler(3000);
+        this.nettyRpcClientHandler =  new NettyRpcClientHandler(timeout);
     }
 
     public void connect(){
@@ -42,7 +44,7 @@ public class NettyRpcClient {
                         ch.pipeline()
                                 .addLast(new RpcEncoder(RpcRequest.class))
                                 .addLast(new RpcDecoder(RpcResponse.class))
-                                .addLast(new NettyRpcReadTimeoutHandler())
+                                .addLast(new NettyRpcReadTimeoutHandler(timeout))
                                 .addLast(nettyRpcClientHandler);
                     }
                 });
@@ -56,13 +58,18 @@ public class NettyRpcClient {
     }
     // 连接成功后，发送 RPC 请求
     public RpcResponse remoteCall(RpcRequest rpcRequest) throws Throwable{
-        // 拿到 channel,并往 channel 里写对象，本质就是向服务端发送请求。
+
+        NettyRpcRequestTimeHolder.put(rpcRequest.getRequestId(),new Date().getTime());
+
+        // 1.拿到 channel,并往 channel 里写对象，本质就是向服务端发送请求。
         channelFuture.channel().writeAndFlush(rpcRequest).sync();
         channelFuture.channel().closeFuture().sync();
-        // 收到服务提供方的响应
-        RpcResponse rpcResponse = nettyRpcClientHandler.getRpcResponse();
+
+
+        // 2. 收到服务提供方的响应
+        RpcResponse rpcResponse = nettyRpcClientHandler.getRpcResponse(rpcRequest.getRequestId());
         logger.info("receive response from netty rpc server:"+rpcResponse);
-        if(rpcResponse.isSuccess()){
+        if(rpcResponse.getSuccess()){
             return rpcResponse;
         }
         throw rpcResponse.getException();

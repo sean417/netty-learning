@@ -11,6 +11,8 @@ public class RpcResponse implements Serializable {
     private Boolean isSuccess;
     private Object result;
     private Throwable exception;
+    private Boolean timeout;
+
 
     public String getRequestId() {
         return requestId;
@@ -20,7 +22,7 @@ public class RpcResponse implements Serializable {
         this.requestId = requestId;
     }
 
-    public Boolean isSuccess() {
+    public Boolean getSuccess() {
         return isSuccess;
     }
 
@@ -44,6 +46,14 @@ public class RpcResponse implements Serializable {
         this.exception = exception;
     }
 
+    public Boolean getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Boolean timeout) {
+        this.timeout = timeout;
+    }
+
     @Override
     public String toString() {
         return "RpcResponse{" +
@@ -51,6 +61,7 @@ public class RpcResponse implements Serializable {
                 ", isSuccess=" + isSuccess +
                 ", result=" + result +
                 ", exception=" + exception +
+                ", timeout=" + timeout +
                 '}';
     }
 }

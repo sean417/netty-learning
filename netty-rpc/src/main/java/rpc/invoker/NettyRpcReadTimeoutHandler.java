@@ -1,8 +1,37 @@
 package rpc.invoker;
 
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import rpc.protocol.RpcResponse;
 
+import java.util.Date;
+
+
+//
 public class NettyRpcReadTimeoutHandler extends ChannelInboundHandlerAdapter {
+    private static final Logger logger = LogManager.getLogger(NettyRpcReadTimeoutHandler.class);
 
+    private long timeout;
 
+    public NettyRpcReadTimeoutHandler(long timeout) {
+        this.timeout = timeout;
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        // 1.类型强转成 RpcResponse 对象
+        RpcResponse rpcResponse = (RpcResponse) msg;
+        // 2.拿到发送时间
+        long requestTime = NettyRpcRequestTimeHolder.get(rpcResponse.getRequestId());
+        long now = new Date().getTime();
+        if(now - requestTime >= timeout){
+            rpcResponse.setTimeout(true);
+            logger.error("rpc response is regarded as timeout: "+ rpcResponse);
+        }
+
+        NettyRpcRequestTimeHolder.remove(rpcResponse.getRequestId());
+        super.channelRead(ctx, msg);
+    }
 }
