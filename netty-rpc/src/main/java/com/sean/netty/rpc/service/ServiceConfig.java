@@ -1,4 +1,4 @@
-package rpc.service;
+package com.sean.netty.rpc.service;
 
 public class ServiceConfig {
         // 服务名称

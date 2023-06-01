@@ -1,11 +1,11 @@
-package rpc.service;
+package com.sean.netty.rpc.service;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rpc.protocol.RpcRequest;
-import rpc.protocol.RpcResponse;
+import com.sean.netty.rpc.protocol.RpcRequest;
+import com.sean.netty.rpc.protocol.RpcResponse;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;

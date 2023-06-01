@@ -1,4 +1,4 @@
-package rpc.serialization;
+package com.sean.netty.rpc.serialization;
 
 import com.caucho.hessian.io.HessianInput;
 import com.caucho.hessian.io.HessianOutput;

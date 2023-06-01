@@ -1,5 +1,8 @@
-package rpc.invoker;
+package com.sean.netty.rpc.reference;
 
+import com.sean.netty.rpc.protocol.RpcResponse;
+import com.sean.netty.rpc.serialization.RpcDecoder;
+import com.sean.netty.rpc.serialization.RpcEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -7,10 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rpc.protocol.RpcRequest;
-import rpc.protocol.RpcResponse;
-import rpc.serialization.RpcDecoder;
-import rpc.serialization.RpcEncoder;
+import com.sean.netty.rpc.protocol.RpcRequest;
 
 import java.util.Date;
 

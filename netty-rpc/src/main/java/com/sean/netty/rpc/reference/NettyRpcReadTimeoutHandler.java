@@ -1,10 +1,10 @@
-package rpc.invoker;
+package com.sean.netty.rpc.reference;
 
+import com.sean.netty.rpc.protocol.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rpc.protocol.RpcResponse;
 
 import java.util.Date;
 

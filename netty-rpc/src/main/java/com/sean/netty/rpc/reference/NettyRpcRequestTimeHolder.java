@@ -1,4 +1,4 @@
-package rpc.invoker;
+package com.sean.netty.rpc.reference;
 
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -1,15 +1,15 @@
-package rpc.service;
+package com.sean.netty.rpc.service;
 
+import com.sean.netty.rpc.protocol.RpcRequest;
+import com.sean.netty.rpc.protocol.RpcResponse;
+import com.sean.netty.rpc.serialization.RpcDecoder;
+import com.sean.netty.rpc.serialization.RpcEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.logging.log4j.Logger;
-import rpc.protocol.RpcRequest;
-import rpc.protocol.RpcResponse;
-import rpc.serialization.RpcDecoder;
-import rpc.serialization.RpcEncoder;
 
 import org.apache.logging.log4j.LogManager;
 

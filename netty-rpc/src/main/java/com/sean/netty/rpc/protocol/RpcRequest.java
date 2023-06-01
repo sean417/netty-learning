@@ -1,4 +1,4 @@
-package rpc.protocol;
+package com.sean.netty.rpc.protocol;
 
 import java.io.Serializable;
 import java.util.Arrays;

@@ -1,9 +1,9 @@
-package rpc.serialization;
+package com.sean.netty.rpc.serialization;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import rpc.protocol.RpcRequest;
+import com.sean.netty.rpc.protocol.RpcRequest;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package rpc.protocol;
+package com.sean.netty.rpc.protocol;
 
-import rpc.serialization.HessianSerialization;
+import com.sean.netty.rpc.serialization.HessianSerialization;
 
 import java.util.UUID;
 
