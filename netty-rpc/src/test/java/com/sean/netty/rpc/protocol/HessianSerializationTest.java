@@ -9,12 +9,11 @@ public class HessianSerializationTest {
     public static void main(String[] args) throws Exception{
         RpcRequest rpcRequest = new RpcRequest();
         rpcRequest.setRequestId(UUID.randomUUID().toString());
-        rpcRequest.setClassName("TestClass");
+        rpcRequest.setServiceInterfaceClass("TestClass");
         rpcRequest.setMethodName("sayHello()");
         rpcRequest.setParameterTypes(new Class[]{String.class});
         rpcRequest.setArgs(new Object[]{"sean"});
-        rpcRequest.setInvokerApplicationName("RpcClient");
-        rpcRequest.setInvokerIp("127.0.0.1");
+
 
         // 把对象序列化成字节数组
         byte[] bytes = HessianSerialization.serialize(rpcRequest);

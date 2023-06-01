@@ -17,9 +17,10 @@ import org.apache.logging.log4j.LogManager;
 public class NettyRpcServer {
 
     private static final Logger logger = LogManager.getLogger(NettyRpcServer.class);
-    private int port;
-    public NettyRpcServer(int port){
-        this.port=port;
+    private ServiceConfig serviceConfig;
+
+    public NettyRpcServer(ServiceConfig serviceConfig) {
+        this.serviceConfig = serviceConfig;
     }
 
     public void start() throws Exception{
@@ -47,8 +48,8 @@ public class NettyRpcServer {
                     }).option(ChannelOption.SO_BACKLOG,128)
                     .childOption(ChannelOption.SO_KEEPALIVE,true);
             //server 启动并监听指定的端口号
-            ChannelFuture channelFuture =  serverBootstrap.bind(port).sync();
-            logger.info("netty rpc server started successfully");
+            ChannelFuture channelFuture =  serverBootstrap.bind(serviceConfig.getPort()).sync();
+            logger.info("netty rpc server started successfully:"+ serviceConfig);
             // 进入阻塞状态，同步一直等到 server 关闭。
             channelFuture.channel().closeFuture().sync();
         }catch (InterruptedException e){
@@ -61,7 +62,10 @@ public class NettyRpcServer {
     }
 
     public static void main(String[] args) throws Exception{
-        NettyRpcServer nettyRpcServer =  new NettyRpcServer(8998);
+        String serviceName = "TestService";
+        Class serviceInterfaceClass = TestService.class;
+        ServiceConfig serviceConfig = new ServiceConfig(serviceName,8889,serviceInterfaceClass);
+        NettyRpcServer nettyRpcServer =  new NettyRpcServer(serviceConfig);
         nettyRpcServer.start();
     }
 

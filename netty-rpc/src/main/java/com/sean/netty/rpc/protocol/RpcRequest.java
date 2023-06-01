@@ -7,17 +7,14 @@ public class RpcRequest implements Serializable {
 
     private String requestId;
     // 需要调用的类
-    private String className;
+    private String serviceInterfaceClass;
     // 需要调用的方法
     private String methodName;
     // 方法的参数类型
     private Class[] parameterTypes;
     // 方法参数名
     private Object[] args;
-    // 调用者的应用名称
-    private String invokerApplicationName;
-    // 调用者的 IP
-    private String invokerIp;
+
 
     public String getRequestId() {
         return requestId;
@@ -27,12 +24,12 @@ public class RpcRequest implements Serializable {
         this.requestId = requestId;
     }
 
-    public String getClassName() {
-        return className;
+    public String getServiceInterfaceClass() {
+        return serviceInterfaceClass;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setServiceInterfaceClass(String serviceInterfaceClass) {
+        this.serviceInterfaceClass = serviceInterfaceClass;
     }
 
     public String getMethodName() {
@@ -59,32 +56,14 @@ public class RpcRequest implements Serializable {
         this.args = args;
     }
 
-    public String getInvokerApplicationName() {
-        return invokerApplicationName;
-    }
-
-    public void setInvokerApplicationName(String invokerApplicationName) {
-        this.invokerApplicationName = invokerApplicationName;
-    }
-
-    public String getInvokerIp() {
-        return invokerIp;
-    }
-
-    public void setInvokerIp(String invokerIp) {
-        this.invokerIp = invokerIp;
-    }
-
     @Override
     public String toString() {
         return "RpcRequest{" +
                 "requestId='" + requestId + '\'' +
-                ", className='" + className + '\'' +
+                ", serviceInterfaceClass='" + serviceInterfaceClass + '\'' +
                 ", methodName='" + methodName + '\'' +
                 ", parameterTypes=" + Arrays.toString(parameterTypes) +
                 ", args=" + Arrays.toString(args) +
-                ", invokerApplicationName='" + invokerApplicationName + '\'' +
-                ", invokerIp='" + invokerIp + '\'' +
                 '}';
     }
 }
