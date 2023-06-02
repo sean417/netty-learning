@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration >
+    <ThresholdFilter level="ALL"/>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+<!--        <File name="log" fileName="log/test.log" append="true">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </File>-->
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="log"/>-->
+        </Root>
+
+        <Logger name="com.sean.netty.rpc.TestLog4j" level="trace" additivity="false">
+        <!--Logger的Filter-->
+        <ThresholdFilter level="debug"/>
+        <appender-ref ref="Console"/>
+
+    </Loggers>
+</Configuration>

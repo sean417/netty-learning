@@ -17,24 +17,23 @@ import java.util.Date;
 public class NettyRpcClient {
 
     private static final Logger logger = LogManager.getLogger(NettyRpcClient.class);
-    private String serviceHost;
-    private int servicePort;
-    private long timeout;
+    // 请求服务的配置
+    private ReferenceConfig referenceConfig;
+
     private ChannelFuture channelFuture;
     NettyRpcClientHandler nettyRpcClientHandler ;
 
-    public NettyRpcClient(String serviceHost, int servicePort,long timeout) {
-        this.serviceHost = serviceHost;
-        this.servicePort = servicePort;
-        this.timeout = timeout;
-        this.nettyRpcClientHandler =  new NettyRpcClientHandler(timeout);
+    public NettyRpcClient(ReferenceConfig referenceConfig) {
+        this.referenceConfig = referenceConfig;
+        this.nettyRpcClientHandler =  new NettyRpcClientHandler(referenceConfig.getTimeout());
     }
 
     public void connect(){
         logger.info("connecting to netty rpc server");
-
+        // 1. 初始化线程池资源
         EventLoopGroup eventLoopGroup =  new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
+        // 2.配置
         bootstrap.group(eventLoopGroup)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE,true)
@@ -44,13 +43,13 @@ public class NettyRpcClient {
                         ch.pipeline()
                                 .addLast(new RpcEncoder(RpcRequest.class))
                                 .addLast(new RpcDecoder(RpcResponse.class))
-                                .addLast(new NettyRpcReadTimeoutHandler(timeout))
+                                .addLast(new NettyRpcReadTimeoutHandler(referenceConfig.getTimeout()))
                                 .addLast(nettyRpcClientHandler);
                     }
                 });
         try{
-            // 发起连接
-            ChannelFuture channelFuture = bootstrap.connect(serviceHost,servicePort).sync();
+            // 3.发起连接
+            channelFuture = bootstrap.connect(referenceConfig.getServceHost(),referenceConfig.getServicePort()).sync();
             logger.info("successfully connected");
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -63,12 +62,12 @@ public class NettyRpcClient {
 
         // 1.拿到 channel,并往 channel 里写对象，本质就是向服务端发送请求。
         channelFuture.channel().writeAndFlush(rpcRequest).sync();
-        channelFuture.channel().closeFuture().sync();
 
 
         // 2. 收到服务提供方的响应
         RpcResponse rpcResponse = nettyRpcClientHandler.getRpcResponse(rpcRequest.getRequestId());
-        logger.info("receive response from netty rpc server:"+rpcResponse);
+        logger.info("receive response from netty rpc server: "+rpcResponse);
+        System.out.println("receive response from netty rpc server: "+rpcResponse);
         if(rpcResponse.getSuccess()){
             return rpcResponse;
         }

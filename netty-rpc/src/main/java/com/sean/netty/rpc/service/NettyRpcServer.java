@@ -13,19 +13,28 @@ import org.apache.logging.log4j.Logger;
 
 import org.apache.logging.log4j.LogManager;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 public class NettyRpcServer {
 
     private static final Logger logger = LogManager.getLogger(NettyRpcServer.class);
-    private ServiceConfig serviceConfig;
+    private static final int DEFAULT_SERVICE_PORT = 8998;
 
-    public NettyRpcServer(ServiceConfig serviceConfig) {
-        this.serviceConfig = serviceConfig;
+    // 多个服务的容器
+    private List<ServiceConfig> serviceConfigs =  new CopyOnWriteArrayList<>();
+    private int port;
+
+    public NettyRpcServer(int port) {
+        this.port = port;
     }
 
     public void start() throws Exception{
 
         logger.info("netty rpc server starting......");
+
+        System.out.println("netty rpc server starting......");
 
         EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
         EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup();
@@ -43,13 +52,14 @@ public class NettyRpcServer {
                                     // 序列化
                                     .addLast(new RpcEncoder(RpcResponse.class))
                                     // 接收请求，发送响应
-                                    .addLast(new NettyRpcServerHandler());
+                                    .addLast(new NettyRpcServerHandler(serviceConfigs));
                         }
                     }).option(ChannelOption.SO_BACKLOG,128)
                     .childOption(ChannelOption.SO_KEEPALIVE,true);
-            //server 启动并监听指定的端口号
-            ChannelFuture channelFuture =  serverBootstrap.bind(serviceConfig.getPort()).sync();
-            logger.info("netty rpc server started successfully:"+ serviceConfig);
+            // server 启动并监听指定的端口号
+            ChannelFuture channelFuture =  serverBootstrap.bind(port).sync();
+            logger.info("netty rpc server started successfully" );
+            System.out.println("netty rpc server started successfully");;
             // 进入阻塞状态，同步一直等到 server 关闭。
             channelFuture.channel().closeFuture().sync();
         }catch (InterruptedException e){
@@ -61,11 +71,17 @@ public class NettyRpcServer {
         }
     }
 
+    public void addServiceConfig(ServiceConfig serviceConfig){
+        serviceConfigs.add(serviceConfig);
+    }
     public static void main(String[] args) throws Exception{
-        String serviceName = "TestService";
-        Class serviceInterfaceClass = TestService.class;
-        ServiceConfig serviceConfig = new ServiceConfig(serviceName,8889,serviceInterfaceClass);
-        NettyRpcServer nettyRpcServer =  new NettyRpcServer(serviceConfig);
+        // 1.实例化服务配置
+        ServiceConfig serviceConfig = new ServiceConfig("TestService",TestService.class,TestServiceImpl.class);
+        // 2.创建服务
+        NettyRpcServer nettyRpcServer =  new NettyRpcServer(DEFAULT_SERVICE_PORT);
+        nettyRpcServer.addServiceConfig(serviceConfig);
+
+        // 3.服务类型
         nettyRpcServer.start();
     }
 

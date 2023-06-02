@@ -7,11 +7,11 @@ public class RpcResponse implements Serializable {
     public static final Boolean SUCCESS = true;
     public static final Boolean FAILURE = false;
 
-    private String requestId;
-    private Boolean isSuccess;
-    private Object result;
-    private Throwable exception;
-    private Boolean timeout;
+    public String requestId;
+    public Boolean isSuccess;
+    public Object result;
+    public Throwable exception;
+    public Boolean timeout;
 
 
     public String getRequestId() {

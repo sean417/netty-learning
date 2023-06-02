@@ -29,6 +29,8 @@ public class NettyRpcReadTimeoutHandler extends ChannelInboundHandlerAdapter {
         if(now - requestTime >= timeout){
             rpcResponse.setTimeout(true);
             logger.error("rpc response is regarded as timeout: "+ rpcResponse);
+        }else {
+            rpcResponse.setTimeout(false);
         }
 
         NettyRpcRequestTimeHolder.remove(rpcResponse.getRequestId());

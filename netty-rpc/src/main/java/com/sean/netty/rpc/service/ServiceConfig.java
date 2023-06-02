@@ -3,16 +3,16 @@ package com.sean.netty.rpc.service;
 public class ServiceConfig {
         // 服务名称
         private String serviceName;
-        // 监听端口号
-        private int port;
         // 服务的接口类型
         private Class serviceInterfaceClass;
+        // 服务接口的实现类
+        private Class serviceClass;
 
 
-    public ServiceConfig(String serviceName, int port, Class serviceInterfaceClass) {
+    public ServiceConfig(String serviceName, Class serviceInterfaceClass, Class serviceClass) {
         this.serviceName = serviceName;
-        this.port = port;
         this.serviceInterfaceClass = serviceInterfaceClass;
+        this.serviceClass = serviceClass;
     }
 
     public String getServiceName() {
@@ -23,14 +23,6 @@ public class ServiceConfig {
         this.serviceName = serviceName;
     }
 
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
     public Class getServiceInterfaceClass() {
         return serviceInterfaceClass;
     }
@@ -39,12 +31,20 @@ public class ServiceConfig {
         this.serviceInterfaceClass = serviceInterfaceClass;
     }
 
+    public Class getServiceClass() {
+        return serviceClass;
+    }
+
+    public void setServiceClass(Class serviceClass) {
+        this.serviceClass = serviceClass;
+    }
+
     @Override
     public String toString() {
         return "ServiceConfig{" +
                 "serviceName='" + serviceName + '\'' +
-                ", port=" + port +
                 ", serviceInterfaceClass=" + serviceInterfaceClass +
+                ", serviceClass=" + serviceClass +
                 '}';
     }
 }
