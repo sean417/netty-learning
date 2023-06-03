@@ -41,9 +41,13 @@ public class NettyRpcClient {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
+                                // 序列化
                                 .addLast(new RpcEncoder(RpcRequest.class))
+                                // 反序列化
                                 .addLast(new RpcDecoder(RpcResponse.class))
+                                // 响应超时处理
                                 .addLast(new NettyRpcReadTimeoutHandler(referenceConfig.getTimeout()))
+                                // 核心逻辑处理
                                 .addLast(nettyRpcClientHandler);
                     }
                 });

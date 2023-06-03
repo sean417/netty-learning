@@ -14,10 +14,6 @@ public class NettyRpcClientHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LogManager.getLogger(NettyRpcClientHandler.class);
     private static final long GET_RPC_RESPONSE_SLEEP_INTERNAL = 5;
 
-    private RpcResponse rpcResponse;
-
-
-
     // 响应结果的封装
     private ConcurrentHashMap<String,RpcResponse> rpcResponses = new ConcurrentHashMap<>();
     private long timeout;

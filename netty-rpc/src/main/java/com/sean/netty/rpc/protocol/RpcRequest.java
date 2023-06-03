@@ -6,13 +6,13 @@ import java.util.Arrays;
 public class RpcRequest implements Serializable {
 
     private String requestId;
-    // 需要调用的类
+    // 需要调用的接口
     private String serviceInterfaceClass;
     // 需要调用的方法
     private String methodName;
     // 方法的参数类型
     private Class[] parameterTypes;
-    // 方法参数名
+    // 实际的参数值
     private Object[] args;
 
 

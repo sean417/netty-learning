@@ -6,11 +6,15 @@ public class RpcResponse implements Serializable {
 
     public static final Boolean SUCCESS = true;
     public static final Boolean FAILURE = false;
-
+    // 响应对应的请求id
     public String requestId;
+    // 响应是否成功
     public Boolean isSuccess;
+    // 响应结果
     public Object result;
+    // 响应异常
     public Throwable exception;
+    // 响应是否超时
     public Boolean timeout;
 
 

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Date;
 
 
-//
+//处理超时响应
 public class NettyRpcReadTimeoutHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LogManager.getLogger(NettyRpcReadTimeoutHandler.class);
 

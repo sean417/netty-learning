@@ -8,17 +8,19 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.UUID;
 
+// 代理服务模块
 public class ServiceProxy {
 
     public static Object createProxy(ReferenceConfig referenceConfig){
             // 构建代理实例
             return Proxy.newProxyInstance(
                     ServiceProxy.class.getClassLoader(),
+                    // 需要代理的接口
                     new Class[]{referenceConfig.getServiceInterfaceClass()},
                     new ServiceProxyInvocationHandler(referenceConfig));
     }
 
-    //
+    //具体的代理逻辑
     static class ServiceProxyInvocationHandler implements InvocationHandler{
 
         private ReferenceConfig referenceConfig;
