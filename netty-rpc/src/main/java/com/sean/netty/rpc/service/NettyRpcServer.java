@@ -31,7 +31,7 @@ public class NettyRpcServer {
     }
 
     public void start() throws Exception{
-        System.out.println("netty rpc server starting......");
+        logger.info("netty rpc server starting......");
 
         EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
         EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup();

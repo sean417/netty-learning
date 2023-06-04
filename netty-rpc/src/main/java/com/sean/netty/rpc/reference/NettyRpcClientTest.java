@@ -16,6 +16,6 @@ public class NettyRpcClientTest {
         String resulet = testService.sayHello("sean");
 
         logger.info("call complete :"+ resulet);
-        System.out.println("call complete :"+ resulet);
+
     }
 }

@@ -37,7 +37,6 @@ public class NettyRpcServerHandler extends ChannelInboundHandlerAdapter {
         RpcResponse rpcResponse = new RpcResponse();
         rpcResponse.setRequestId(rpcRequest.getRequestId());
         try{
-
             // 2.我们需要根据 rpcRequest 要调用的接口找到实现类
             ServiceConfig serviceConfig = serviceConfigsMap.get(rpcRequest.getServiceInterfaceClass());
             // 3. 把实现类通过反射实例化
