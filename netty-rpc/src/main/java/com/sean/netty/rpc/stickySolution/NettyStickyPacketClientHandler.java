@@ -31,14 +31,8 @@ public class NettyStickyPacketClientHandler extends ChannelInboundHandlerAdapter
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf byteBuf = (ByteBuf) msg;
-        byte[] bytes = new byte[byteBuf.readableBytes()];
-        byteBuf.readBytes(bytes);
-
-        String response = new String(bytes,"UTF-8");
-        response = response.substring(0,response.length() - LINE_SEPERATOR.length());
+        String response = (String) msg;
         logger.info("Netty client received response: "+ response);
-
     }
 
     @Override
