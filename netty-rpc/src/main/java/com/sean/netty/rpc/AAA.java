@@ -8,6 +8,7 @@ public class AAA {
     private static final Logger logger = LogManager.getLogger(AAA.class);
 
     public static void main(String[] args) {
+
         logger.info("ttttttttttttttt");
     }
 }
