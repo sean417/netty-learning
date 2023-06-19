@@ -15,7 +15,7 @@ public class NettyRpcClientHandler extends ChannelInboundHandlerAdapter {
     private static final long GET_RPC_RESPONSE_SLEEP_INTERNAL = 5;
 
     // 响应结果的封装
-    private ConcurrentHashMap<String,RpcResponse> rpcResponses = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String,RpcResponse> rpcResponses = new ConcurrentHashMap<String,RpcResponse>();
     private long timeout;
 
     public NettyRpcClientHandler(long timeout) {

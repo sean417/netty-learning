@@ -17,7 +17,7 @@ public class NettyRpcServerHandler extends ChannelInboundHandlerAdapter {
 
 
     private ConcurrentHashMap<String, ServiceConfig> serviceConfigsMap =
-            new ConcurrentHashMap<>();
+            new ConcurrentHashMap<String,ServiceConfig>();
 
     public NettyRpcServerHandler(List<ServiceConfig> serviceConfigs) {
         for(ServiceConfig serviceConfig:serviceConfigs){

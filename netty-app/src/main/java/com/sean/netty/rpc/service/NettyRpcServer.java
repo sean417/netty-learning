@@ -23,7 +23,7 @@ public class NettyRpcServer {
     private static final int DEFAULT_SERVICE_PORT = 8998;
 
     // 多个服务的容器
-    private List<ServiceConfig> serviceConfigs =  new CopyOnWriteArrayList<>();
+    private List<ServiceConfig> serviceConfigs =  new CopyOnWriteArrayList<ServiceConfig>();
     private int port;
 
     public NettyRpcServer(int port) {

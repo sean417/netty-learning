@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NettyRpcRequestTimeHolder {
 
 
-    private static ConcurrentHashMap<String,Long> requestTimes = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String,Long> requestTimes = new ConcurrentHashMap<String,Long>();
 
     public static void put(String requestId, long requestTime){
         requestTimes.put(requestId,requestTime);
