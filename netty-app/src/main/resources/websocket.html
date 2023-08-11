@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html charset=utf-8">
+</head>
+<body onload="connectServer();">
+<script type="text/javascript">
+    var websocket;
+    // 浏览器连接服务端的方法
+    function connectServer() {
+        if("WebSocket" in window){
+            console.log("your browser supports websocket!")
+            // 连接websocket服务端地址
+            websocket = new WebSocket("ws://localhost:8998/websocket");
+            // 连接成功之后，客户端向 websocket 发送消息。
+            websocket.onopen = function (){
+                console.log("send request to websocket server");
+                // 向 websocket 发送消息
+                websocket.send("I am a websocket client.")
+            }
+
+            // 接收响应的回调方法
+            websocket.onmessage = function (ev) {
+                var response = ev.data;
+                console.log("receives response from netty server: "+response);
+            }
+        }
+
+    }
+</script>
+
+
+</body>
+
+</html>
